@@ -8,11 +8,15 @@ from openpilot.system.manager.process import launcher
 from openpilot.common.swaglog import cloudlog
 from openpilot.common.hardware import HARDWARE
 from openpilot.common.version import get_build_metadata
+from openpilot.system.smiley_privacy import BLOCK_COMMA_CLOUD
 
 ATHENA_MGR_PID_PARAM = "AthenadPid"
 
 
 def main():
+  if BLOCK_COMMA_CLOUD:  # smileypilot privacy switch; also guarded in process_config. sunnylink shares manage_athenad() and is untouched
+    cloudlog.warning("comma cloud blocked (smileypilot): not starting athenad")
+    return
   manage_athenad("DongleId", ATHENA_MGR_PID_PARAM, 'athenad', 'openpilot.system.athena.athenad')
 
 

@@ -9,6 +9,7 @@ from openpilot.common.params import Params
 from openpilot.common.realtime import drop_realtime
 from openpilot.common.swaglog import cloudlog
 from openpilot.system.athena.registration import UNREGISTERED_DONGLE_ID
+from openpilot.system.smiley_privacy import BLOCK_COMMA_CLOUD
 from openpilot.selfdrive.ui.lib.api_helpers import get_token
 
 
@@ -47,6 +48,8 @@ class PrimeState:
     return PrimeType.UNKNOWN
 
   def _fetch_prime_status(self) -> None:
+    if BLOCK_COMMA_CLOUD:  # smileypilot: never ask comma's servers about subscription status
+      return
     dongle_id = self._params.get("DongleId")
     if not dongle_id or dongle_id == UNREGISTERED_DONGLE_ID:
       return
@@ -82,6 +85,8 @@ class PrimeState:
         time.sleep(self.SLEEP_INTERVAL)
 
   def start(self) -> None:
+    if BLOCK_COMMA_CLOUD:  # smileypilot: no polling thread at all
+      return
     if self._thread and self._thread.is_alive():
       return
     self._running = True

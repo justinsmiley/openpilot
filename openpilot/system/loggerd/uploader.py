@@ -16,6 +16,7 @@ from openpilot.common.utils import get_upload_stream
 from openpilot.common.params import Params
 from openpilot.common.realtime import set_core_affinity
 from openpilot.common.hardware.hw import Paths
+from openpilot.system.smiley_privacy import BLOCK_COMMA_CLOUD
 from openpilot.system.loggerd.xattr_cache import getxattr, setxattr
 from openpilot.common.swaglog import cloudlog
 
@@ -225,6 +226,10 @@ class Uploader:
 
 
 def main(exit_event: threading.Event | None = None) -> None:
+  if BLOCK_COMMA_CLOUD:  # smileypilot privacy switch; also guarded in process_config
+    cloudlog.warning("comma cloud blocked (smileypilot): not starting uploader")
+    return
+
   if exit_event is None:
     exit_event = threading.Event()
 

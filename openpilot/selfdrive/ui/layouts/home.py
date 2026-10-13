@@ -7,6 +7,7 @@ from openpilot.selfdrive.ui.widgets.offroad_alerts import UpdateAlert, OffroadAl
 from openpilot.selfdrive.ui.widgets.exp_mode_button import ExperimentalModeButton
 from openpilot.selfdrive.ui.widgets.prime import PrimeWidget
 from openpilot.selfdrive.ui.widgets.setup import SetupWidget
+from openpilot.system.smiley_privacy import BLOCK_COMMA_CLOUD
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.lib.application import gui_app, FontWeight, MousePos, TextAlignment
 from openpilot.system.ui.lib.multilang import tr, trn
@@ -191,6 +192,8 @@ class HomeLayout(Widget):
     self.offroad_alert.render(self.content_rect)
 
   def _render_left_column(self):
+    if BLOCK_COMMA_CLOUD:  # smileypilot: no comma prime advert
+      return
     self._prime_widget.render(self.left_column_rect)
 
   def _render_right_column(self):
@@ -199,6 +202,9 @@ class HomeLayout(Widget):
       self.right_column_rect.x, self.right_column_rect.y, self.right_column_rect.width, exp_height
     )
     self._exp_mode_button.render(exp_rect)
+
+    if BLOCK_COMMA_CLOUD:  # smileypilot: no "finish setup / claim your comma prime offer" panel
+      return
 
     setup_rect = rl.Rectangle(
       self.right_column_rect.x,
