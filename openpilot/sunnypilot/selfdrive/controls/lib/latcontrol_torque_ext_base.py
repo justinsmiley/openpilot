@@ -17,6 +17,10 @@ LATERAL_LAG_MOD = 0.0  # seconds, modifies how far in the future we look ahead f
 KP = 1.0
 KI = 0.3
 
+# smileypilot: lateral accel error (m/s^2) over which friction compensation ramps from 0 to full.
+# Upstream is 0.2; wider means small errors get a smaller kick, so fewer small steering corrections.
+FRICTION_THRESHOLD = 0.4
+
 
 def get_predicted_lateral_jerk(lat_accels, t_diffs):
   # compute finite difference between subsequent model_v2.acceleration.y values

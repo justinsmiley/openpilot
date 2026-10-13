@@ -4,12 +4,11 @@ Copyright (c) 2021-, Haibin Wen, sunnypilot, and a number of other contributors.
 This file is part of sunnypilot and is licensed under the MIT License.
 See the LICENSE.md file in the root directory for more details.
 """
-from opendbc.car.lateral import FRICTION_THRESHOLD
 from opendbc.sunnypilot.car.interfaces import LatControlInputs
 from opendbc.sunnypilot.car.lateral_ext import get_friction as get_friction_in_torque_space
 from openpilot.common.params import Params
 
-from openpilot.sunnypilot.selfdrive.controls.lib.latcontrol_torque_ext_base import LatControlTorqueExtBase
+from openpilot.sunnypilot.selfdrive.controls.lib.latcontrol_torque_ext_base import FRICTION_THRESHOLD, LatControlTorqueExtBase
 
 
 class LatControlTorqueJerkAware(LatControlTorqueExtBase):
